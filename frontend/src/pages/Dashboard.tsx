@@ -20,7 +20,8 @@ const Dashboard = () => {
     
     try {
       // Call backend API with Gemini integration
-      const response = await axios.post('http://localhost:3000/api/analyze', { url })
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+      const response = await axios.post(`${apiUrl}/api/analyze`, { url })
       
       setAnalysis(response.data)
       setLoading(false)
