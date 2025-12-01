@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: lynalyze-postgres
+    environment:
+      POSTGRES_USER: lynalyze
+      POSTGRES_PASSWORD: lynalyze_password
+      POSTGRES_DB: lynalyze
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - lynalyze-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lynalyze"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MongoDB Database (alternative)
+  mongodb:
+    image: mongo:6
+    container_name: lynalyze-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: lynalyze
+      MONGO_INITDB_ROOT_PASSWORD: lynalyze_password
+      MONGO_INITDB_DATABASE: lynalyze
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - lynalyze-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/lynalyze --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: lynalyze-backend
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgresql://lynalyze:lynalyze_password@postgres:5432/lynalyze
+      MONGODB_URI: mongodb://lynalyze:lynalyze_password@mongodb:27017/lynalyze
+      JWT_SECRET: your-production-secret-key-change-this
+      PYTHON_SERVICE_URL: http://microservices:5000
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    networks:
+      - lynalyze-network
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm start
+
+  # Python Microservices
+  microservices:
+    build:
+      context: ./microservices
+      dockerfile: Dockerfile
+    container_name: lynalyze-microservices
+    environment:
+      FLASK_ENV: production
+      PORT: 5000
+    ports:
+      - "5000:5000"
+    networks:
+      - lynalyze-network
+    volumes:
+      - ./microservices:/app
+    command: python app.py
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: lynalyze-frontend
+    environment:
+      VITE_API_URL: http://localhost:3000
+      VITE_PYTHON_SERVICE_URL: http://localhost:5000
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+      - microservices
+    networks:
+      - lynalyze-network
+
+networks:
+  lynalyze-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  mongodb_data:

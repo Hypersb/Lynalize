@@ -1,0 +1,43 @@
+// Prisma Schema for PostgreSQL
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  analyses  Analysis[]
+
+  @@map("users")
+}
+
+model Analysis {
+  id          String   @id @default(uuid())
+  url         String
+  title       String
+  description String   @default("")
+  images      String[]
+  metadata    Json?
+  textAnalysis Json?
+  mediaAnalysis Json?
+  trends      Json?
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("analyses")
+}
