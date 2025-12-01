@@ -17,11 +17,12 @@ const mockHistoryData: AnalysisData[] = [
     metadata: { author: 'Tech Insights', keywords: ['technology', 'trends', '2025'] },
     textAnalysis: {
       wordCount: 1250,
-      sentiment: { polarity: 0.7, subjectivity: 0.5, label: 'positive', positive: 0.7, negative: 0.1, neutral: 0.2 },
+      sentiment: { polarity: 0.7, subjectivity: 0.5, score: 0.7, label: 'positive', positive: 0.7, negative: 0.1, neutral: 0.2 },
       wordFrequency: { 'technology': 25, 'innovation': 20, 'digital': 18 }
     },
     images: ['https://images.unsplash.com/photo-1518770660439-4636190af475?w=400'],
-    trends: { timestamps: [new Date().toISOString()], interest: [75] }
+    trends: { timestamps: [new Date().toISOString()], interest: [75] },
+    userId: 'demo-user'
   },
   {
     id: 'history-2',
@@ -32,11 +33,12 @@ const mockHistoryData: AnalysisData[] = [
     metadata: { author: 'Data Blog', keywords: ['visualization', 'data', 'design'] },
     textAnalysis: {
       wordCount: 980,
-      sentiment: { polarity: 0.55, subjectivity: 0.6, label: 'positive', positive: 0.55, negative: 0.2, neutral: 0.25 },
+      sentiment: { polarity: 0.55, subjectivity: 0.6, score: 0.55, label: 'positive', positive: 0.55, negative: 0.2, neutral: 0.25 },
       wordFrequency: { 'data': 30, 'visualization': 22, 'chart': 15 }
     },
     images: ['https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400'],
-    trends: { timestamps: [new Date().toISOString()], interest: [68] }
+    trends: { timestamps: [new Date().toISOString()], interest: [68] },
+    userId: 'demo-user'
   },
   {
     id: 'history-3',
@@ -47,11 +49,12 @@ const mockHistoryData: AnalysisData[] = [
     metadata: { author: 'Research Team', keywords: ['AI', 'machine learning', 'research'] },
     textAnalysis: {
       wordCount: 1580,
-      sentiment: { polarity: 0.62, subjectivity: 0.55, label: 'positive', positive: 0.62, negative: 0.15, neutral: 0.23 },
+      sentiment: { polarity: 0.62, subjectivity: 0.55, score: 0.62, label: 'positive', positive: 0.62, negative: 0.15, neutral: 0.23 },
       wordFrequency: { 'AI': 35, 'learning': 28, 'model': 24 }
     },
     images: ['https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400'],
-    trends: { timestamps: [new Date().toISOString()], interest: [82] }
+    trends: { timestamps: [new Date().toISOString()], interest: [82] },
+    userId: 'demo-user'
   }
 ]
 

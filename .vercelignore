@@ -1,0 +1,10 @@
+backend/
+microservices/
+.venv/
+node_modules/
+*.log
+.env
+.env.local
+*.pyc
+__pycache__/
+.DS_Store

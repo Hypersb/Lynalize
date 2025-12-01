@@ -19,6 +19,8 @@ export interface AnalysisData {
     wordCount: number
     wordFrequency: Record<string, number>
     sentiment: {
+      polarity: number
+      subjectivity: number
       score: number
       label: string
       positive: number
