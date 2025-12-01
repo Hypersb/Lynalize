@@ -166,6 +166,50 @@ const Dashboard = () => {
           {/* Charts */}
           <ChartsDisplay analysis={analysis} />
 
+          {/* Key Insights Section */}
+          {analysis.keyInsights && analysis.keyInsights.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="card"
+            >
+              <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+                🔍 Key Insights
+              </h3>
+              <ul className="space-y-2">
+                {analysis.keyInsights.map((insight: string, index: number) => (
+                  <li key={index} className="flex items-start">
+                    <span className="text-primary-600 mr-2">•</span>
+                    <span className="text-gray-700 dark:text-gray-300">{insight}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+
+          {/* Topics Section */}
+          {analysis.topics && analysis.topics.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="card"
+            >
+              <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+                📚 Topics Identified
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {analysis.topics.map((topic: string, index: number) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium"
+                  >
+                    {topic}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           {/* Word Frequency Table */}
           {analysis.textAnalysis?.wordFrequency && (
             <DataTable
