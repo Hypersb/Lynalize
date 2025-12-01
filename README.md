@@ -254,4 +254,4 @@ MIT License - see LICENSE file for details
 
 ## 📧 Support
 
-For support, email support@lynalyze.com or open an issue in the repository.
+For support, email business.sbkc@gmail.com or open an issue in the repository.
